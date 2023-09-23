@@ -18,7 +18,8 @@ RUN python -m venv /py && \
     adduser --disabled-password --no-create-home django-user
 # RUN chown -R django-user:django-user /app
 # VOLUME /app
+# RUN source /py/bin/activate
 
-ENV PATH="$PATH:/py/bin"
+ENV PATH="/py/bin:$PATH"
 
 USER django-user
