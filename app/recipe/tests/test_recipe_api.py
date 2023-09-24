@@ -110,7 +110,9 @@ class PrivateRecipeAPITests(TestCase):
     def test_partial_update(self):
         original_link = "http://example.com/recipe.pdf"
         recipe = create_recipe(
-            user=self.user, link=original_link, description="Sample description"
+            user=self.user,
+            link=original_link,
+            description="Sample description",
         )
         payload = {
             "title": "Chocolate cheesecake",
@@ -132,7 +134,8 @@ class PrivateRecipeAPITests(TestCase):
         }
         url = detail_url(recipe.id)
 
-        res = self.client.patch(url, payload)
+        # res = self.client.patch(url, payload)
+        self.client.patch(url, payload)
 
         recipe.refresh_from_db()
         self.assertEqual(recipe.user, self.user)
