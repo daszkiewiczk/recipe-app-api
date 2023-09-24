@@ -33,11 +33,10 @@ class RecipeSerializer(serializers.ModelSerializer):
                 user=auth_user,
                 **tag,
             )
-            recipe.tags.add(tag)
+            recipe.tags.add(tag_obj)
         return recipe
 
 
 class RecipeDetailSerializer(RecipeSerializer):
     class Meta(RecipeSerializer.Meta):
-        model = Recipe
         fields = RecipeSerializer.Meta.fields + ("description",)

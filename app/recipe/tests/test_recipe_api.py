@@ -182,11 +182,12 @@ class PrivateRecipeAPITests(TestCase):
 
     def test_create_recipe_with_existing_tags(self):
         tag_indian = Tag.objects.create(user=self.user, name="Indian")
+
         payload = {
-            "titile": "Indian curry",
-            "time_minutes": 20,
-            "price": Decimal("7.00"),
-            "tags": [{"name": "Indian"}, {"name": "Spicy"}],
+            "title": "Pongal",
+            "time_minutes": 60,
+            "price": Decimal("4.50"),
+            "tags": [{"name": "Indian"}, {"name": "Breakfast"}],
         }
         res = self.client.post(RECIPES_URL, payload, format="json")
 
