@@ -26,16 +26,12 @@ class UserAdmin(BaseUserAdmin):
 
     readonly_fields = ("last_login",)
     add_fieldsets = (
-        (
-            None,
-            {
-                "classes": ("wide",),
-                "fields": ("email", "password1", "password2")
-            }
-        ),
+        (None, {"classes": ("wide",), "fields": ("email", "password1", "password2")}),
     )
 
 
 admin.site.register(models.User, UserAdmin)
 
 admin.site.register(models.Recipe)
+
+admin.site.register(models.Tag)
