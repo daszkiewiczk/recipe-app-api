@@ -17,23 +17,23 @@ class ModelTests(TestCase):
 
     def test_new_user_email_normalized(self):
         sample_emails = [
-            ('test1@EXAMPLE.COM', 'test1@example.com'),
-            ('Test2@Example.com', 'Test2@example.com'),
-            ('TEST3@example.com', 'TEST3@example.com'),
-            ('test4@example.com', 'test4@example.com'),
+            ("test1@EXAMPLE.COM", "test1@example.com"),
+            ("Test2@Example.com", "Test2@example.com"),
+            ("TEST3@example.com", "TEST3@example.com"),
+            ("test4@example.com", "test4@example.com"),
         ]
         for email, expected_email in sample_emails:
-            user = get_user_model().objects.create_user(email, 'test123')
+            user = get_user_model().objects.create_user(email, "test123")
             self.assertEqual(user.email, expected_email)
-    
+
     def test_new_without_email_raises_error(self):
         with self.assertRaises(ValueError):
-            get_user_model().objects.create_user(None, 'test123')
+            get_user_model().objects.create_user(None, "test123")
 
     def test_create_superuser(self):
         user = get_user_model().objects.create_superuser(
-            'test@example.com',
-            'test123',
+            "test@example.com",
+            "test123",
         )
 
         self.assertTrue(user.is_superuser)
