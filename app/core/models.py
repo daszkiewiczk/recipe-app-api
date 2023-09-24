@@ -66,6 +66,7 @@ class Tag(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
 class Ingredient(models.Model):
     name = models.CharField(max_length=255)
     user = models.ForeignKey(

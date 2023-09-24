@@ -8,11 +8,13 @@ from recipe.serializers import IngredientSerializer
 
 INGREDIENTS_URL = reverse("recipe:ingredient-list")
 
-def create_user(email='user@example.com', password='testpass123'):
+
+def create_user(email="user@example.com", password="testpass123"):
     return get_user_model().objects.create_user(email=email, password=password)
 
+
 def detail_url(ingredient_id):
-    return reverse('recipe:ingredient-detail', args=[ingredient_id])
+    return reverse("recipe:ingredient-detail", args=[ingredient_id])
 
 
 class PublicIngredientsApiTests(TestCase):
@@ -31,11 +33,11 @@ class PrivateIngredientsApiTests(TestCase):
         self.client.force_authenticate(self.user)
 
     def test_retrieve_ingredients(self):
-        Ingredient.objects.create(user=self.user, name='Kale')
-        Ingredient.objects.create(user=self.user, name='Salt')
+        Ingredient.objects.create(user=self.user, name="Kale")
+        Ingredient.objects.create(user=self.user, name="Salt")
 
         res = self.client.get(INGREDIENTS_URL)
-        ingredients = Ingredient.objects.all().order_by('-name')
+        ingredients = Ingredient.objects.all().order_by("-name")
 
         serializer = IngredientSerializer(ingredients, many=True)
 
@@ -43,32 +45,30 @@ class PrivateIngredientsApiTests(TestCase):
         self.assertEqual(res.data, serializer.data)
 
     def test_ingredients_limited_to_user(self):
-        user2 = create_user(email='user2@example.com')
-        Ingredient.objects.create(user=user2, name='Vinegar')
-        ingredient = Ingredient.objects.create(user=self.user, name='Tumeric')
+        user2 = create_user(email="user2@example.com")
+        Ingredient.objects.create(user=user2, name="Vinegar")
+        ingredient = Ingredient.objects.create(user=self.user, name="Tumeric")
 
         res = self.client.get(INGREDIENTS_URL)
 
-
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(len(res.data), 1)
-        self.assertEqual(res.data[0]['name'], ingredient.name)
-        self.assertEqual(res.data[0]['id'], ingredient.id)
-    
+        self.assertEqual(res.data[0]["name"], ingredient.name)
+        self.assertEqual(res.data[0]["id"], ingredient.id)
 
     def test_update_ingredient(self):
-        ingredient = Ingredient.objects.create(user=self.user, name='Tumeric')
+        ingredient = Ingredient.objects.create(user=self.user, name="Tumeric")
 
-        payload = {'name': 'Cabbage'}
+        payload = {"name": "Cabbage"}
         url = detail_url(ingredient.id)
         res = self.client.patch(url, payload)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         ingredient.refresh_from_db()
-        self.assertEqual(ingredient.name, payload['name'])
+        self.assertEqual(ingredient.name, payload["name"])
 
     def test_delete_ingredient(self):
-        ingredient = Ingredient.objects.create(user=self.user, name='Tumeric')
+        ingredient = Ingredient.objects.create(user=self.user, name="Tumeric")
 
         url = detail_url(ingredient.id)
 
@@ -76,6 +76,6 @@ class PrivateIngredientsApiTests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
 
-        ingredients = Ingredient.objects.filter(user=self.user, name='Tumeric')
+        ingredients = Ingredient.objects.filter(user=self.user, name="Tumeric")
 
         self.assertFalse(ingredients.exists())
