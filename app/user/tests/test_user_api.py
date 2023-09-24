@@ -139,6 +139,7 @@ class PrivateUserApiTests(TestCase):
         payload = {
             "name": "New Name",
             "password": "newpass",
+            "email": "test@example.com",
         }
         self.client.patch(ME_URL, payload)
 
