@@ -81,6 +81,7 @@ class ModelTests(TestCase):
 
     @patch("core.models.uuid.uuid4")
     def test_recipe_file_name_uuid(self, mock):
+        """Test generating the image path"""
         uuid = "test-uuid"
         mock.return_value = uuid
         file_path = models.recipe_image_file_path(None, "myimage.jpg")
